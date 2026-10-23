@@ -1,0 +1,23 @@
+
+name: Self-hosted Runner Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-runner:
+    name: Test Windows Runner
+    runs-on: self-hosted
+
+    steps:
+      - name: Check runner and secret
+        shell: pwsh
+        run: |
+          Write-Host "Runner test started"
+          Write-Host "User: $(whoami)"
+
+          if ([string]::IsNullOrWhiteSpace($env:SH_SECRET)) {
+            throw "SH_SECRET is not available to the runner process"
+          }
+
+          Write-Host "SH_SECRET is available; value hidden"
