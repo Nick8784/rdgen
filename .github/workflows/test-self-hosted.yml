@@ -7,17 +7,19 @@ on:
 jobs:
   test-runner:
     name: Test Windows Runner
-    runs-on: self-hosted
+    runs-on: [self-hosted, Windows, X64]
 
     steps:
       - name: Check runner and secret
-        shell: pwsh
+        shell: powershell
+        env:
+          SH_SECRET: ${{ secrets.SH_SECRET }}
         run: |
           Write-Host "Runner test started"
           Write-Host "User: $(whoami)"
 
           if ([string]::IsNullOrWhiteSpace($env:SH_SECRET)) {
-            throw "SH_SECRET is not available to the runner process"
+            throw "SH_SECRET is not available"
           }
 
           Write-Host "SH_SECRET is available; value hidden"
